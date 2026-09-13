@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+*.db
+*.sqlite3
+
+# Flutter
+sono_app_frontend/build/
+sono_app_frontend/.dart_tool/
+sono_app_frontend/.flutter-plugins
+sono_app_frontend/.flutter-plugins-dependencies
+
+# OS / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
