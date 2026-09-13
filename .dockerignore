@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+*.db
+*.sqlite3
+.git/
+sono_app_frontend/
+start_app.bat
