@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
@@ -131,14 +131,3 @@ def remove_app_event(event_id: int, db: Session = Depends(get_db)):
     if not success:
         raise HTTPException(status_code=404, detail="Evenement introuvable")
     return {"status": "success", "message": "Evenement supprime"}
-
-
-# Route diagnostic temporaire (à supprimer après stabilisation)
-@app.get("/debug-echo/{full_path:path}", include_in_schema=False)
-def debug_echo(full_path: str, request: Request):
-    return {
-        "scope_path": request.scope.get("path"),
-        "original_path": request.scope.get("vercel_original_path"),
-        "root_path": request.scope.get("root_path", ""),
-        "route_path": full_path,
-    }
