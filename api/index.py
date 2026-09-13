@@ -15,6 +15,7 @@ async def app(scope, receive, send):
     """
     if scope.get("type") == "http":
         path = scope.get("path", "")
+        scope["vercel_original_path"] = path
         for prefix in ("/api/index", "/api"):
             if path == prefix or path.startswith(prefix + "/"):
                 scope["path"] = path[len(prefix):] or "/"
