@@ -139,8 +139,11 @@ class _StaffScreenState extends State<StaffScreen> {
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.gold),
               )
-            : CustomScrollView(
-                slivers: [
+            : RefreshIndicator(
+                color: AppColors.gold,
+                onRefresh: _loadStaff,
+                child: CustomScrollView(
+                  slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -189,7 +192,8 @@ class _StaffScreenState extends State<StaffScreen> {
                         },
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
       ),
       floatingActionButton: widget.isAdmin

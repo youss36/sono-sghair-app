@@ -4,6 +4,20 @@ import 'screens/login_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
+  // حماية من الشاشة الحمراء: أي خطأ في البناء يعرض رسالة لطيفة بدل التعطل.
+  ErrorWidget.builder = (details) => Material(
+        color: AppColors.black,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              'Une erreur inattendue est survenue. Redémarrez l\u2019application.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: AppColors.muted),
+            ),
+          ),
+        ),
+      );
   runApp(const SonoApp());
 }
 

@@ -14,10 +14,14 @@ class StaffApiService {
   Future<List<StaffMember>> fetchStaff() async {
     final response = await http.get(_uri()).timeout(_timeout);
     _throwIfFailed(response);
-    final data = jsonDecode(response.body) as List<dynamic>;
-    return data
-        .map((item) => StaffMember.fromJson(item as Map<String, dynamic>))
-        .toList();
+    try {
+      final data = jsonDecode(response.body) as List<dynamic>;
+      return data
+          .map((item) => StaffMember.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      throw Exception('Données serveur invalides');
+    }
   }
 
   Future<StaffMember> login(String email, String password) async {

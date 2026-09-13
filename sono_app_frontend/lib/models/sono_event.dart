@@ -32,21 +32,25 @@ class SonoEvent {
   final bool batterie;
 
   factory SonoEvent.fromJson(Map<String, dynamic> json) {
+    int asInt(Object? v) => (v as num?)?.toInt() ?? 0;
     return SonoEvent(
-      id: json['id'].toString(),
-      troupe: json['troupe'] as String,
-      type: json['type'] as String,
-      description: json['description'] as String,
-      lieu: json['lieu'] as String,
-      date: DateTime.parse(json['date'] as String),
-      staffNames: List<String>.from(json['staffNames'] as List),
-      vehicle: json['vehicle'] as String,
-      numChateau: json['numChateau'] as int,
-      numBase: json['numBase'] as int,
-      numRetour: json['numRetour'] as int,
-      numChanteur: json['numChanteur'] as int,
-      numPercussion: json['numPercussion'] as int,
-      batterie: json['batterie'] as bool,
+      id: (json['id'] ?? '').toString(),
+      troupe: (json['troupe'] ?? '') as String,
+      type: (json['type'] ?? '') as String,
+      description: (json['description'] ?? '') as String,
+      lieu: (json['lieu'] ?? '') as String,
+      date: DateTime.tryParse((json['date'] ?? '') as String) ??
+          DateTime.now(),
+      staffNames: ((json['staffNames'] as List?) ?? [])
+          .map((e) => e.toString())
+          .toList(),
+      vehicle: (json['vehicle'] ?? '') as String,
+      numChateau: asInt(json['numChateau']),
+      numBase: asInt(json['numBase']),
+      numRetour: asInt(json['numRetour']),
+      numChanteur: asInt(json['numChanteur']),
+      numPercussion: asInt(json['numPercussion']),
+      batterie: json['batterie'] == true,
     );
   }
 

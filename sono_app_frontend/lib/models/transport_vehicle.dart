@@ -11,9 +11,9 @@ class TransportVehicle {
 
   factory TransportVehicle.fromJson(Map<String, dynamic> json) {
     return TransportVehicle(
-      id: json['id'].toString(),
-      matricule: json['matricule'] as String,
-      modele: json['modele'] as String,
+      id: (json['id'] ?? '').toString(),
+      matricule: (json['matricule'] ?? '') as String,
+      modele: (json['modele'] ?? '') as String,
     );
   }
 

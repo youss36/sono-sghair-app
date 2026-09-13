@@ -146,8 +146,11 @@ class _StockScreenState extends State<StockScreen> {
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.gold),
               )
-            : CustomScrollView(
-                slivers: [
+            : RefreshIndicator(
+                color: AppColors.gold,
+                onRefresh: _loadEquipments,
+                child: CustomScrollView(
+                  slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -201,7 +204,8 @@ class _StockScreenState extends State<StockScreen> {
                         },
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
       ),
       floatingActionButton: widget.isAdmin

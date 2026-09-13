@@ -14,11 +14,15 @@ class TransportApiService {
   Future<List<TransportVehicle>> fetchVehicles() async {
     final response = await http.get(_uri()).timeout(_timeout);
     _throwIfFailed(response);
-    final data = jsonDecode(response.body) as List<dynamic>;
-    return data
-        .map((item) =>
-            TransportVehicle.fromJson(item as Map<String, dynamic>))
-        .toList();
+    try {
+      final data = jsonDecode(response.body) as List<dynamic>;
+      return data
+          .map((item) =>
+              TransportVehicle.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      throw Exception('Données serveur invalides');
+    }
   }
 
   Future<TransportVehicle> createVehicle(TransportVehicle vehicle) async {

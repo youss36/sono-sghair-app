@@ -11,9 +11,9 @@ class Equipment {
 
   factory Equipment.fromJson(Map<String, dynamic> json) {
     return Equipment(
-      id: json['id'].toString(),
-      nomMateriel: json['nom_materiel'] as String,
-      quantiteTotale: (json['quantite_totale'] as num).toInt(),
+      id: (json['id'] ?? '').toString(),
+      nomMateriel: (json['nom_materiel'] ?? '') as String,
+      quantiteTotale: (json['quantite_totale'] as num?)?.toInt() ?? 0,
     );
   }
 

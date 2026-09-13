@@ -19,7 +19,9 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 
 def authenticate_user(db: Session, email: str, password: str):
-    db_user = db.query(models.User).filter(models.User.email == email).first()
+    db_user = db.query(models.User).filter(
+        models.User.email == email.strip().lower()
+    ).first()
     if db_user is None:
         return None
     if not verify_password(password, db_user.password_hash):
@@ -56,12 +58,13 @@ def get_users(db: Session):
 def create_user(db: Session, user: schemas.UserCreate):
     from fastapi import HTTPException
 
-    existing = db.query(models.User).filter(models.User.email == user.email).first()
+    email = user.email.strip().lower()
+    existing = db.query(models.User).filter(models.User.email == email).first()
     if existing:
         raise HTTPException(status_code=400, detail="الايميل هذا مستعمل already!")
     db_user = models.User(
-        nom_prenom=user.nom_prenom,
-        email=user.email,
+        nom_prenom=user.nom_prenom.strip(),
+        email=email,
         password_hash=_hash_password(user.password),
         role=user.role,
     )

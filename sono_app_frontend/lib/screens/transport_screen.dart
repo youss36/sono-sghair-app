@@ -146,8 +146,11 @@ class _TransportScreenState extends State<TransportScreen> {
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.gold),
               )
-            : CustomScrollView(
-                slivers: [
+            : RefreshIndicator(
+                color: AppColors.gold,
+                onRefresh: _loadVehicles,
+                child: CustomScrollView(
+                  slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -198,7 +201,8 @@ class _TransportScreenState extends State<TransportScreen> {
                         },
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
       ),
       floatingActionButton: widget.isAdmin

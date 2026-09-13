@@ -19,10 +19,16 @@ class EventApiService {
   Future<List<SonoEvent>> fetchEvents() async {
     final response = await http.get(_uri()).timeout(_timeout);
     _throwIfFailed(response);
-    final data = jsonDecode(response.body) as List<dynamic>;
-    return data
-        .map((item) => SonoEvent.fromJson(item as Map<String, dynamic>))
-        .toList();
+    try {
+      final data = jsonDecode(response.body) as List<dynamic>;
+      final events = data
+          .map((item) => SonoEvent.fromJson(item as Map<String, dynamic>))
+          .toList();
+      events.sort((a, b) => a.date.compareTo(b.date));
+      return events;
+    } catch (_) {
+      throw Exception('Données serveur invalides');
+    }
   }
 
   Future<SonoEvent> createEvent(SonoEvent event) async {

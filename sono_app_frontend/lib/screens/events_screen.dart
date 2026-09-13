@@ -124,10 +124,13 @@ class _EventsScreenState extends State<EventsScreen> {
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.gold),
               )
-            : CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: _MonthCalendar(
+            : RefreshIndicator(
+                color: AppColors.gold,
+                onRefresh: _loadEvents,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: _MonthCalendar(
                       visibleMonth: _visibleMonth,
                       eventsCount: visibleEvents.length,
                       countForDay: _eventCountForDay,
@@ -159,7 +162,8 @@ class _EventsScreenState extends State<EventsScreen> {
                         },
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
       ),
       floatingActionButton: widget.isAdmin

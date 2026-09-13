@@ -16,11 +16,13 @@ class StaffMember {
   bool get isAdmin => role == 'Admin';
 
   factory StaffMember.fromJson(Map<String, dynamic> json) {
+    const allowedRoles = {'Admin', 'Technicien', 'Aideur'};
+    final role = (json['role'] ?? 'Aideur') as String;
     return StaffMember(
-      id: json['id'].toString(),
-      nomPrenom: json['nom_prenom'] as String,
-      email: json['email'] as String,
-      role: json['role'] as String,
+      id: (json['id'] ?? '').toString(),
+      nomPrenom: (json['nom_prenom'] ?? '') as String,
+      email: (json['email'] ?? '') as String,
+      role: allowedRoles.contains(role) ? role : 'Aideur',
       photoUrl: json['photo_url'] as String?,
     );
   }

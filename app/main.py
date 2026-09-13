@@ -21,6 +21,15 @@ app.add_middleware(
 def read_root():
     return {"status": "success", "message": "مرحباً بيك في سيرفر تطبيق الـ Sono جاهز للخدمة!"}
 
+@app.get("/health")
+def health_check(db: Session = Depends(get_db)):
+    """فحص سريع: السيرفر + القاعدة خدامين؟"""
+    try:
+        db.execute(__import__("sqlalchemy").text("SELECT 1"))
+        return {"status": "ok", "database": "ok"}
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+
 # Endpoint باش تخرج الماتريال الكل
 @app.get("/equipments", response_model=List[schemas.EquipmentResponse])
 def read_equipments(db: Session = Depends(get_db)):
