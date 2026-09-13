@@ -5,6 +5,7 @@ venv/
 *.db
 *.sqlite3
 backups/
+.env
 
 # Flutter
 sono_app_frontend/build/
