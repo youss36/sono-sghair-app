@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Email ou mot de passe incorrect, ou serveur arrêté.'),
+          content: Text('Email ou mot de passe incorrect.'),
           backgroundColor: Colors.redAccent,
         ),
       );

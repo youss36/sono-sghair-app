@@ -59,7 +59,7 @@ class _StaffScreenState extends State<StaffScreen> {
       if (!mounted) return;
       setState(() => _isLoading = false);
       _showError(
-          'Impossible de charger le personnel. Lancez le serveur FastAPI (redémarrez-le pour les nouveaux endpoints).');
+          'Impossible de charger le personnel. Réessayez.');
     }
   }
 
@@ -75,7 +75,7 @@ class _StaffScreenState extends State<StaffScreen> {
           password: result.password);
       setState(() => _staff.add(saved));
     } catch (error) {
-      _showError('Ajout impossible. Vérifiez le serveur FastAPI.');
+      _showError('Ajout impossible. Réessayez.');
     }
   }
 
@@ -117,7 +117,7 @@ class _StaffScreenState extends State<StaffScreen> {
       await _staffApi.deleteMember(member.id);
       setState(() => _staff.removeWhere((m) => m.id == member.id));
     } catch (error) {
-      _showError('Suppression impossible. Vérifiez le serveur FastAPI.');
+      _showError('Suppression impossible. Réessayez.');
     }
   }
 

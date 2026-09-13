@@ -305,7 +305,7 @@ class _EventPreviewCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const Text(
-              'Les événements ajoutés depuis le planning seront reliés au backend FastAPI dans la prochaine étape.',
+              'Toutes vos données sont enregistrées sur cet appareil (mode hors-ligne).',
               style: TextStyle(color: AppColors.muted, height: 1.35),
             ),
           ],

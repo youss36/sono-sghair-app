@@ -59,7 +59,7 @@ class _TransportScreenState extends State<TransportScreen> {
       if (!mounted) return;
       setState(() => _isLoading = false);
       _showError(
-          'Impossible de charger le transport. Lancez le serveur FastAPI (redémarrez-le pour les nouveaux endpoints).');
+          'Impossible de charger le transport. Réessayez.');
     }
   }
 
@@ -82,7 +82,7 @@ class _TransportScreenState extends State<TransportScreen> {
         });
       }
     } catch (error) {
-      _showError('Enregistrement impossible. Vérifiez le serveur FastAPI.');
+      _showError('Enregistrement impossible. Réessayez.');
     }
   }
 
@@ -124,7 +124,7 @@ class _TransportScreenState extends State<TransportScreen> {
       await _vehicleApi.deleteVehicle(vehicle.id);
       setState(() => _vehicles.removeWhere((v) => v.id == vehicle.id));
     } catch (error) {
-      _showError('Suppression impossible. Vérifiez le serveur FastAPI.');
+      _showError('Suppression impossible. Réessayez.');
     }
   }
 

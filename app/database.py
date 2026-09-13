@@ -3,6 +3,7 @@ from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.pool import NullPool
 
 # لو متغير DATABASE_URL موجود (استضافة Render + Postgres) نستعملو،
 # وإلا نستعمل SQLite محلية بجانب المشروع.
@@ -17,7 +18,8 @@ if _DATABASE_URL:
             "postgresql://", "postgresql+psycopg2://", 1
         )
     SQLALCHEMY_DATABASE_URL = _DATABASE_URL
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    # NullPool: ضروري مع السيرفرات serverless (Vercel) باش ما تتعباش القاعدة
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, poolclass=NullPool)
 else:
     _DB_PATH = Path(__file__).resolve().parent.parent / "sono_db.db"
     SQLALCHEMY_DATABASE_URL = f"sqlite:///{_DB_PATH}"

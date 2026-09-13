@@ -48,7 +48,7 @@ class _EventsScreenState extends State<EventsScreen> {
     } catch (error) {
       if (!mounted) return;
       setState(() => _isLoading = false);
-      _showError('Impossible de charger les événements. Lancez le serveur FastAPI.');
+      _showError('Impossible de charger les événements. Réessayez.');
     }
   }
 
@@ -89,7 +89,7 @@ class _EventsScreenState extends State<EventsScreen> {
         });
       }
     } catch (error) {
-      _showError('Enregistrement impossible. Vérifiez le serveur FastAPI.');
+      _showError('Enregistrement impossible. Réessayez.');
     }
   }
 
@@ -98,7 +98,7 @@ class _EventsScreenState extends State<EventsScreen> {
       await _eventApi.deleteEvent(event.id);
       setState(() => _events.removeWhere((item) => item.id == event.id));
     } catch (error) {
-      _showError('Suppression impossible. Vérifiez le serveur FastAPI.');
+      _showError('Suppression impossible. Réessayez.');
     }
   }
 

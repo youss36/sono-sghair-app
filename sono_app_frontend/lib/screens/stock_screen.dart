@@ -59,7 +59,7 @@ class _StockScreenState extends State<StockScreen> {
     } catch (error) {
       if (!mounted) return;
       setState(() => _isLoading = false);
-      _showError('Impossible de charger le stock. Lancez le serveur FastAPI.');
+      _showError('Impossible de charger le stock. Réessayez.');
     }
   }
 
@@ -82,7 +82,7 @@ class _StockScreenState extends State<StockScreen> {
         });
       }
     } catch (error) {
-      _showError('Enregistrement impossible. Vérifiez le serveur FastAPI.');
+      _showError('Enregistrement impossible. Réessayez.');
     }
   }
 
@@ -124,7 +124,7 @@ class _StockScreenState extends State<StockScreen> {
       await _equipmentApi.deleteEquipment(equipment.id);
       setState(() => _equipments.removeWhere((e) => e.id == equipment.id));
     } catch (error) {
-      _showError('Suppression impossible. Vérifiez le serveur FastAPI.');
+      _showError('Suppression impossible. Réessayez.');
     }
   }
 
