@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'screens/login_screen.dart';
-import 'services/seed_data.dart';
 import 'theme/app_theme.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await ensureSeeded();
+void main() {
   runApp(const SonoApp());
 }
 

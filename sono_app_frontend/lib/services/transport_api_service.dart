@@ -1,39 +1,59 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import '../models/transport_vehicle.dart';
-import 'local_store.dart';
+import 'event_api_service.dart';
 
 class TransportApiService {
-  final _store = LocalStore.instance;
+  static const Duration _timeout = Duration(seconds: 10);
+
+  static Uri _uri([String path = '']) =>
+      Uri.parse('${EventApiService.baseUrl}/transports$path');
 
   Future<List<TransportVehicle>> fetchVehicles() async {
-    final items = await _store.readAll('transports');
-    final list =
-        items.map((item) => TransportVehicle.fromJson(item)).toList();
-    list.sort((a, b) => a.modele.compareTo(b.modele));
-    return list;
+    final response = await http.get(_uri()).timeout(_timeout);
+    _throwIfFailed(response);
+    final data = jsonDecode(response.body) as List<dynamic>;
+    return data
+        .map((item) =>
+            TransportVehicle.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 
   Future<TransportVehicle> createVehicle(TransportVehicle vehicle) async {
-    final items = await _store.readAll('transports');
-    final exists = items.any((v) =>
-        (v['matricule'] as String).toLowerCase() ==
-        vehicle.matricule.toLowerCase());
-    if (exists) throw Exception('Ce matricule existe déjà');
-    final saved = await _store.insert('transports', {
-      'id': await _store.nextId('transports'),
-      ...vehicle.toJson(),
-    });
-    return TransportVehicle.fromJson(saved);
+    final response = await http
+        .post(
+          _uri(),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(vehicle.toJson()),
+        )
+        .timeout(_timeout);
+    _throwIfFailed(response);
+    return TransportVehicle.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<TransportVehicle> updateVehicle(TransportVehicle vehicle) async {
-    final updated = await _store.update(
-        'transports', vehicle.id, vehicle.toJson());
-    if (updated == null) throw Exception('Véhicule introuvable');
-    return TransportVehicle.fromJson(updated);
+    final response = await http
+        .put(
+          _uri('/${vehicle.id}'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(vehicle.toJson()),
+        )
+        .timeout(_timeout);
+    _throwIfFailed(response);
+    return TransportVehicle.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<void> deleteVehicle(String vehicleId) async {
-    final ok = await _store.delete('transports', vehicleId);
-    if (!ok) throw Exception('Véhicule introuvable');
+    final response = await http.delete(_uri('/$vehicleId')).timeout(_timeout);
+    _throwIfFailed(response);
+  }
+
+  void _throwIfFailed(http.Response response) {
+    if (response.statusCode >= 200 && response.statusCode < 300) return;
+    throw Exception('Erreur API ${response.statusCode}: ${response.body}');
   }
 }
